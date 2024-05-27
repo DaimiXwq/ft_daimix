@@ -46,6 +46,24 @@ app.get('/api/reviews', async (req, res) => {
   res.status(200).send(reviews);
 });
 
+const questionSchema = new mongoose.Schema({
+  question: String,
+});
+
+const Question = mongoose.model('Question', questionSchema);
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/api/questions', async (req, res) => {
+  try {
+    const questions = await Question.find();
+    res.json(questions);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

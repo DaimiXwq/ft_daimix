@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Scatter } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import { Link } from 'react-router-dom';
 import 'chart.js/auto';
 
 function Statistics() {
@@ -9,7 +10,8 @@ function Statistics() {
     datasets: [{
       label: 'Средняя оценка',
       data: [],
-      backgroundColor: 'rgba(75,192,192,1)',
+      borderColor: 'rgba(75,192,192,1)',
+      fill: false,
     }],
   });
 
@@ -24,8 +26,9 @@ function Statistics() {
           labels: labels,
           datasets: [{
             label: 'Средняя оценка',
-            data: ratings.map((rating, index) => ({ x: labels[index], y: rating })),
-            backgroundColor: 'rgba(75,192,192,1)',
+            data: ratings,
+            borderColor: 'rgba(75,192,192,1)',
+            fill: false,
           }],
         });
       })
@@ -50,7 +53,10 @@ function Statistics() {
   return (
     <div>
       <h1>График оценки качества образования</h1>
-      <Scatter data={data} options={options} />
+      <Line data={data} options={options} />
+      <Link to="/">
+        <button type="button">На главную</button>
+      </Link>
     </div>
   );
 }
