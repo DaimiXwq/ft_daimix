@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './EvaluationForm.css';
 
 function EvaluationForm() {
+  const location = useLocation();
+  const {name, school} = location.state || {};
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [comment, setComment] = useState('');
+  const [ratings, setRatings] = useState([]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/questions')
@@ -20,16 +24,22 @@ function EvaluationForm() {
   }, []);
 
   const handleNext = () => {
+    setRatings([...ratings, score]);
+    setComments([...comments, comment]);
+    
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setScore(0);
+      setComment('');
     } else {
+      const averageRating = ratings.reduce((sum, rating) => sum + rating, score) / (ratings.length + 1);
       const reviewData = {
-        userId: 'user-id',
-        occupation: 'occupation',
-        school: 'school-name',
-        ratings: [score],
-        comments: [comment],
-        averageRating: score
+        userId: name+school,
+        occupation: name,
+        school: school,
+        ratings: [...ratings, score],
+        comments: [...comments, comment],
+        averageRating: averageRating
       };
       axios.post('http://localhost:5000/api/reviews', reviewData)
         .then(response => {

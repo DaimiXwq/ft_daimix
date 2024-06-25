@@ -28,7 +28,10 @@ function SchoolCritic() {
           />
         </label>
         <div>
-          <Link to="/evaluation-form">
+          <Link to={{
+        pathname: "/evaluation-form",
+        state: { name, school }
+      }}>
             <button type="button">Анкета</button>
           </Link>
           <Link to="/statistics">
