@@ -52,8 +52,6 @@ const questionSchema = new mongoose.Schema({
 
 const Question = mongoose.model('Question', questionSchema);
 
-app.use(cors());
-app.use(express.json());
 
 app.get('/api/questions', async (req, res) => {
   try {

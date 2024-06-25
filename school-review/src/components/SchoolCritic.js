@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './SchoolCritic.css';
 
 function SchoolCritic() {
   const [school, setSchool] = useState('');

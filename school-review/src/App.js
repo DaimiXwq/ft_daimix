@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import EvaluationForm from './components/EvaluationForm';
 import SchoolCritic from './components/SchoolCritic';

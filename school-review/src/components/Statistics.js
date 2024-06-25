@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Link } from 'react-router-dom';
 import 'chart.js/auto';
+import './Statistics.css';
 
 function Statistics() {
   const [data, setData] = useState({
