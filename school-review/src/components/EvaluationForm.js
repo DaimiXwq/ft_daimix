@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './EvaluationForm.css';
 
 function EvaluationForm() {
-  const location = useLocation();
-  const {name, school} = location.state || {};
+  const locationrew = useLocation();
+  const {name, school} = locationrew.state || {};
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [comment, setComment] = useState('');
   const [ratings, setRatings] = useState([]);
   const [comments, setComments] = useState([]);
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/questions')
@@ -29,12 +31,12 @@ function EvaluationForm() {
     
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setScore(0);
+
       setComment('');
     } else {
       const averageRating = ratings.reduce((sum, rating) => sum + rating, score) / (ratings.length + 1);
       const reviewData = {
-        userId: name+school,
+        userId: name + school,
         occupation: name,
         school: school,
         ratings: [...ratings, score],
@@ -43,7 +45,8 @@ function EvaluationForm() {
       };
       axios.post('http://localhost:5000/api/reviews', reviewData)
         .then(response => {
-          console.log(response.data);
+          //console.log(response.data);
+		  navigate('/statistics', { state: {name, school}});
         })
         .catch(error => {
           console.error(error);

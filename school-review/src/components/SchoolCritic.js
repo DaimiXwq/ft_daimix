@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './SchoolCritic.css';
 
 function SchoolCritic() {
   const [school, setSchool] = useState('');
   const [name, setName] = useState('');
-
+  const navigate = useNavigate();
+  
+  const handleClickEvaluation = () => {
+    const data = { name:name, school:school }; 
+    navigate('/evaluation-form', { state: data });
+  };
+  const handleClickStatistics = () => {
+    const data = { name:name, school:school }; 
+    navigate('/statistics', { state: data });
+  };
+  
+  
   return (
     <div>
       <h1>Школьный критик</h1>
@@ -27,20 +38,14 @@ function SchoolCritic() {
             onChange={(e) => setName(e.target.value)}
           />
         </label>
-        <div>
-          <Link to={{
-        pathname: "/evaluation-form",
-        state: { name, school }
-      }}>
-            <button type="button">Анкета</button>
-          </Link>
-          <Link to="/statistics">
-            <button type="button">Статистика</button>
-          </Link>
+        <div> 
+            <button onClick={handleClickEvaluation}>Анкета</button>			
+            <button onClick={handleClickStatistics}>Статистика</button>
         </div>
       </form>
     </div>
   );
 }
+
 
 export default SchoolCritic;
